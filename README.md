@@ -71,7 +71,7 @@ using the provided examples (UnityInputLocationInterface and UnityNetworkInterfa
 require different mechanisms for obtaining location data and initializing your networking library.
 
 For more hints, see the example usage in the Unity Demo App for an example, in the 'Go' function of the 
-SpatialMatchmakingDemo class.
+POIMatchmakingDemo class.
 
 Unity Demo App
 --------------
