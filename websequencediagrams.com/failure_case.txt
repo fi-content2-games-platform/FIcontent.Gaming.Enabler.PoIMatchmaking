@@ -1,0 +1,60 @@
+title A failure case
+
+note over M: start
+A->M: register
+B->M: register
+C->M: register
+M->A: match A and B
+M->B: match A and B
+M->B: match C and B
+M->C: match C and B
+note over B: wait for A to connect
+A-->B: connect to B (fail)
+note over A: give up connecting to B
+A->M: request new match
+note over M: remove A from match
+C->B: connect to B (succeed)
+C->M: unregister
+note over M: remove C from match
+note over B: give up waiting for A
+note right of D: Oops!
+B->M: request new match
+D->M: register
+M->B: match B and D
+note over B: wait for D to connect
+M->D: match B and D
+D->B: connect to B (succeed)
+B->M: request new match
+
+note over M,A,B,C,D:
+  One problem is that C connected to B when
+  B was actually waiting for A.  B closes the
+  connection, but not before C unregisters as C
+  now considers the matching to be complete.
+
+  If B is expected to confirm to C that the 
+  connection is OK then this specific problem
+  doesn't occur, however there is still potential
+  for C to give up connecting before receiving 
+  B's message, and in this case it would be B
+  who unregisters from the matchmaking server
+  prematurely.
+
+  However, that is likely to be a much swifter 
+  response, so less chance of a conflict.
+
+  Perhaps a deeper problem, though, is that when
+  A told the matching service that its match with
+  B was no good, the matching service immediately
+  returned B to the matching pool even though B
+  itself is not currently paying attention to 
+  the matching service.
+
+  If B was not returned to the pool until later
+  (when B tells M that the match is no good) then
+  C would not have tried to connect to B so early.
+  It feels desirable too that with this change all
+  clients in the matching pool can be expected to 
+  respond fairly swiftly to being matched, 
+  simplifying some of the races.
+end note

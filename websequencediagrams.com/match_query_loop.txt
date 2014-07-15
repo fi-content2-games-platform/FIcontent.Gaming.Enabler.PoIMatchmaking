@@ -1,0 +1,48 @@
+title Matcher Flow - Match Query Loop
+
+
+note over C,S: ...client registration...
+
+loop until matched
+C->S: GET /matches?client=40
+note over S: 
+The server sleeps until
+it has a match for this
+client, or a timeout is
+exceeded
+end note
+
+alt invalid client id
+S->C: 404 Not Found
+note over C: back to registration
+else timeout
+S->C: 204 No content, Retry-After 1s
+note over C: resend request
+else matched
+S->C: 307 SeeOther /matches/15
+note over C: break out of loop
+end
+end
+
+C->S: GET /matches/15
+S->C: 200 OK
+note left of S:
+id: 15
+clients: [40,43]
+end note
+C->S: GET /clients/43
+S->C: 200 OK
+
+note left of S:
+id: 43,
+uuid: ...,
+location: ...,
+requirements {...},
+poiSearchOptions: {...},
+neartestPOI: {...}
+end note
+
+note over C: 
+connect with 
+client 43
+end note

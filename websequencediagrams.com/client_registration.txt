@@ -1,0 +1,76 @@
+title Matcher Flow - Client Registration
+
+
+note over C: Connect
+C->S: POST /clients
+note right of C: 
+uuid: ...,
+location: ...,
+requirements: {...},
+poiSearchOptions: {...}
+end note
+
+S->C: 307 SeeOther /clients/40
+note over S: 
+The server queries if there
+is a POI near to client 40,
+changes client 40's location 
+to POI's location if true.
+end note
+note over S: 
+The server submits client 40 to
+the matchmaking subsystem
+end note
+
+opt Query the client resource
+C->S: GET /matches?client=40
+S->C: 200 OK
+note left of S:
+id: 40,
+uuid: ...,
+location: ...,
+requirements {...},
+poiSearchOptions: {...},
+neartestPOI: {...}
+end note
+end
+
+opt Update the client resource
+C->S: PUT /clients/40
+note right of C:
+id: 40,
+location: ...,
+requirements {...},
+poiSearchOptions: {...}
+end note
+S->C: 204 No Content
+note over S: 
+The server queries if there
+is a POI near to client 40,
+changes client 40's location 
+to POI's location if true.
+end note
+note over S:
+The server checks to see if the
+client's connection to the session
+host is still valid. If not, it
+removes the clients from the match
+and looks for a new one
+based on the updated criteria
+end note
+end 
+
+
+opt Delete the client resource
+C->S: DELETE /clients/40?removeFromMatch=true
+S->C: 202 Accepted
+note over S:
+The server deletes the client
+and removes its entry in the
+match session
+end note
+end
+
+
+
+

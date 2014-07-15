@@ -1,0 +1,69 @@
+title Matcher Flow - Two Client Example
+
+note over C1,S1,C2(host), S2
+S1, S2 represent a single server,
+shown seperately for clarity
+end note
+
+note over C1: Connect
+C1->S1: POST /clients
+S1->C1: 307 SeeOther /clients/40
+note over S1: Submit client 40 for matchmaking
+C1->S1: GET /matches?client=40
+note over S1: waiting up to 30s
+S1->C1: 204 No content
+C1->S1: GET /matches?client=40
+note over S1: waiting up to 30s
+
+note over C2(host): Connect
+C2(host)->S1: POST /clients
+S1->C2(host): 307 SeeOther /clients/41
+note over S1: Submit client 41 for matchmaking
+
+note over S1
+Matchmaking subsystem matches 
+clients 41 and 40 to each other
+end note
+
+
+S1->C1: 307 SeeOther /matches/15
+C2(host)->S1: GET /matches?client=41
+S1->C2(host): 307 SeeOther /matches/15
+C1->S1: GET /matches/15
+C2(host)->S1: GET /matches/15
+
+S1->C1: 200 OK
+S1->C2(host): 200 OK
+
+note over C1,S1,C2(host): The clients connect to each other successfully
+#note over C1,S1,C2(host): Connected clients: [41,40]
+note right of S1:
+id: 15
+clients: [41,40]
+end note
+
+note over C2(host):
+C2 looks for additional
+clients to match
+end note
+
+C2(host)->S2: GET /matches?client=41&numMatched=2
+note over S2: waiting up to 30s
+
+
+
+
+note over C1: Quit
+C1->S1: DELETE /clients/40?removeFromMatch=true
+S1->C1: 202 Accepted
+note right of S1:
+id: 15
+clients: [41]
+end note
+
+
+
+
+S2->C2(host): 204 No content
+C2(host)->S2: GET /matches?client=41&numMatched=2
+note over S2: waiting up to 30s
