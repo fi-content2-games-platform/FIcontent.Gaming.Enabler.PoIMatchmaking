@@ -83,7 +83,7 @@ It should work on all platfroms, and has been tested on Windows Desktop and Andr
 however, due to Unity's poor WWW interface.
 
 Before building the player, select the "Main Camera" game object and, in the Inspector, edit the "Base Url" setting of
-the "SpatialMatchmakingDemo" component.  This specifies which instance of the servlet to use - for local Jetty use it 
+the "POIMatchmakingDemo" component.  This specifies which instance of the servlet to use - for local Jetty use it 
 should probably be http://localhost:8888, or with the default deployment settings you can use http://fi-cloud:8080/matcher, 
 substituting for fi-cloud if you don't have a name alias set up in /etc/hosts.
 
