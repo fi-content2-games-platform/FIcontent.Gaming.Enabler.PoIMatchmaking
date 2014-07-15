@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets
 {
-	public class SpatialMatchmakingDemo : MonoBehaviour
+	public class POIMatchmakingDemo : MonoBehaviour
 	{
 		public string BaseUrl = "http://fi-cloud:8080";
 		public int MaxMatchRadius = 500;
