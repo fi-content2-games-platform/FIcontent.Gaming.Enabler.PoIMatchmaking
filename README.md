@@ -108,12 +108,3 @@ will need to be changed to the value that is displayed when you run MasterServer
 The role of host is automatically assigned to a client by the server. Only a host will continue to loop through the code, checking for 
 new incoming connections from additional clients. This means that a host can downgrade to a "normal" client, but not vice versa.
 
-A host can change to a role of a client, but a client can't change to a role of host. This is because once a client connects, it reaches 
-the "break" in the loop, but a host continues to loop, and look for new matches
-A host changes to a client when the following occurs: P1, P2 register. P2 is host. P2 and P1 try to connect to each other but fail (due to 
-NAT error or requirements fail). P2 is still hosting and looking for an additional client. P3 registers. It first attempts to connect to P1, 
-where P3 acts as the host. P3 and P1 fail to connect (due to NAT error or requirements fail), so P3 looks for additional clients. P3 starts 
-to connect to P2, where P2 changes from host to client. P3 is still the host. Successful match: [3,2]
-		
-If a client is currently connecting to a host and the host quits the service, then the client automatically re-registers with the service and will begin to look for a new match
-if a client has finished connecting to a host and the host quits the service, then the client will have to manually quit the service and re-register.
