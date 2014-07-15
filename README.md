@@ -1,4 +1,4 @@
-SpatialMatchmaking
+PoIMatchmaking
 ==================
 
 This package contains a sample server, a Unity client implementation, and a demo of the usage of the Unity package. 
