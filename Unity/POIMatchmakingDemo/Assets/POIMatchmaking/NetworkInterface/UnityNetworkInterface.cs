@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace Assets.SpatialMatchmaking
+namespace Assets.POIMatchmaking
 {
     /// <summary>
     /// An INetworkInterface for Unity's built-in networking API.  It should be attached to a GameObject which has a NetworkView.  It's not 
@@ -34,7 +34,8 @@ namespace Assets.SpatialMatchmaking
         public bool Connected { get; private set; }
         public bool Connecting { get; private set; }
         public string NetworkError { get; private set; }
-		
+
+		private int ListeningToClient { get; set;}
 		
 //		void Awake()
 //		{
@@ -75,6 +76,7 @@ namespace Assets.SpatialMatchmaking
 								_connectToGuid = null;
 						}
         }
+
 
         [RPC]
         public void RpcHelloFrom(string clientUuid, NetworkMessageInfo info)
@@ -117,19 +119,18 @@ namespace Assets.SpatialMatchmaking
 
         public bool StartConnecting(string connectionInfo, string localUuid)
         {
-            _localUuid = localUuid;
-            _connectToGuid = connectionInfo;
+			_localUuid = localUuid;
+			_connectToGuid = connectionInfo;
 
-            var error = Network.Connect(connectionInfo);
-            if (error != NetworkConnectionError.NoError)
-            {
-                NetworkError = error.ToString();
+			var error = Network.Connect (connectionInfo);
+			if (error != NetworkConnectionError.NoError) {
+				NetworkError = error.ToString ();
 				NetworkError += "localUuid:" + localUuid + " connectionInfo:" + connectionInfo;
-                return false;
-            }
+					return false;
+			}
 
-            Connecting = true;
-            
+			Connecting = true;
+
             return true;
         }
 
@@ -140,6 +141,8 @@ namespace Assets.SpatialMatchmaking
             Connected = false;
         }
 
+
+		//connect the host to the next client
 		public void AddAnotherClient()
 		{
 			Connected = false;

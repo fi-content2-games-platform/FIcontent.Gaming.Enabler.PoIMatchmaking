@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Assets.SpatialMatchmaking;
+using Assets.POIMatchmaking;
 using UnityEngine;
 
 namespace Assets

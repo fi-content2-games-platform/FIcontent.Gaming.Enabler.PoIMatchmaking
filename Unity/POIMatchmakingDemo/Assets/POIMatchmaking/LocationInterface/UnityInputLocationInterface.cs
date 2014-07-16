@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Assets.SpatialMatchmaking
+namespace Assets.POIMatchmaking
 {
     internal class UnityInputLocationInterface : ILocationInterface, IDisposable
     {

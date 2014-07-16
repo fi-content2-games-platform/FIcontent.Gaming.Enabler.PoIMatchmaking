@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Assets.SpatialMatchmaking
+namespace Assets.POIMatchmaking
 {
     public class JsonArray : IEnumerable
     {

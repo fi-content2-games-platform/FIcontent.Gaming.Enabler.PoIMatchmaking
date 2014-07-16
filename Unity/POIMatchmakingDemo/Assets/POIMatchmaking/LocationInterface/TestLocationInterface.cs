@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace Assets.SpatialMatchmaking
+namespace Assets.POIMatchmaking
 {
 	class TestLocationInterface : ILocationInterface
 	{

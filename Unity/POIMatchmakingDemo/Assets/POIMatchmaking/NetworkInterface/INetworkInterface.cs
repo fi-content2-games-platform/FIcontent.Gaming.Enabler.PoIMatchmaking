@@ -1,4 +1,4 @@
-namespace Assets.SpatialMatchmaking
+namespace Assets.POIMatchmaking
 {
     /// <summary>
     /// Abstraction of the low level networking functionality.  Supply an implementation of this interface to
@@ -75,5 +75,6 @@ namespace Assets.SpatialMatchmaking
 		/// Continue being a host. Prepare variables to connect to an additional player
 		/// </summary>
 		void AddAnotherClient();
+
     }
 }

@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 
-namespace Assets.SpatialMatchmaking
+namespace Assets.POIMatchmaking
 {
     public static class Json
     {

@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.SpatialMatchmaking
+namespace Assets.POIMatchmaking
 {
 	/// <summary>
 	/// Primary interface for communicating with the matchmaking service.
@@ -83,9 +83,8 @@ namespace Assets.SpatialMatchmaking
 		
 		/// <summary>
 		/// Duration a host will wait for a client to connect before giving up and requesting a new match
-		/// The value should be less than that of ConnectToHostTimeout*3
 		/// </summary>
-		public float HostWaitForClientTimeout = 20;
+		public float HostWaitForClientTimeout = 20; //30
 		
 		/// <summary>
 		/// Duration a client will wait while attempting to connect to a host before abandoning the connection
@@ -125,6 +124,7 @@ namespace Assets.SpatialMatchmaking
 
 		//used when the client manually updates it's record, set in SpatialMatchmakingDemo.cs, used as requireNotUuid
 		public List<String> dontMatchWith = new List<String>(); //the list containing all clients for this client's requirements.requireNotUuid
+
 
 		private void Log(string message)
 		{
@@ -242,7 +242,6 @@ namespace Assets.SpatialMatchmaking
 
 		public void UpdateRequireNotUuid(String otherClientUuid)
 		{
-			Log ("other_ClientUuid: " + otherClientUuid);
 			requirements.Add(RequireNotUuid(otherClientUuid));
 			dontMatchWith.Add (otherClientUuid);
 		}
@@ -364,7 +363,6 @@ namespace Assets.SpatialMatchmaking
 						Log("still waiting for match");
 						continue;
 					}
-					
 					break;
 				}
 				if (www.error != null)
@@ -396,7 +394,7 @@ namespace Assets.SpatialMatchmaking
 				var otherClient = 0; //always starts from 1				
 				isHost = clients.GetInteger(0) == id;
 				if (isHost)
-					otherClient = clients.GetInteger(clients.Count-1); //last in array is the newest client to be added to the match
+					otherClient = clients.GetInteger(numClientsInMatch-1); //last in array is the newest client to be added to the match
 				else
 					otherClient = clients.GetInteger(0); //the host of the match
 
@@ -420,7 +418,6 @@ namespace Assets.SpatialMatchmaking
 				if (isHost)
 				{
 					Log("HOSTING - waiting for client "+otherClient+" to join");
-					//we are now able to accept a connection
 
 					var startTime = Time.realtimeSinceStartup;
 
@@ -428,6 +425,7 @@ namespace Assets.SpatialMatchmaking
 						IsServerInitiliazed = NetworkInterface.InitServer();
 					else //the server has already been initialised
 						NetworkInterface.AddAnotherClient(); //reset the values for UnityNetworkInterface.Connecting and .Connected to false
+
 
 					NetworkInterface.StartListening(otherClientData.GetString("uuid"));
 					if (IsServerInitiliazed)
@@ -455,14 +453,24 @@ namespace Assets.SpatialMatchmaking
 					// This really shouldn't be here.  We probably need a way for the host to not fill in the connectionInfo until 
 					// it is ready to accept connections, and this delay should be replaced by the client polling for that info to 
 					// become available.  (The barrier to this is that currently updating client info clears all matches...)
-					Log("waiting for a few seconds to let the host start");
-					yield return new WaitForSeconds(4); //old version
+					Log("waiting to let the host start");
+					yield return new WaitForSeconds(3); 
+
+					//test
+					Log ("host connInfo: " + otherClientData.GetString("connectionInfo"));
+					while (otherClientData.GetString("connectionInfo") == "")
+					{
+						yield return new WaitForSeconds(2);
+						www = new WWW(BaseUrl + string.Format("/clients/{0}", otherClient));
+						yield return www;
+						otherClientData = new JsonObject(www.text);
+					}
+					Log ("host connInfo: " + otherClientData.GetString("connectionInfo"));
 
 					var attempts = 0;
 					while (!NetworkInterface.Connected)
 					{
 						Log("connecting to host");
-						
 						var startTime = Time.realtimeSinceStartup;
 
 						var startConnectingOk = NetworkInterface.StartConnecting(otherClientData.GetString("connectionInfo"), clientData.GetString("uuid"));
@@ -504,7 +512,7 @@ namespace Assets.SpatialMatchmaking
 				if (!NetworkInterface.Connected)
 				{
 					numClientsInMatch -= 1; //-1, since the client that we were trying to connect to has been removed from the match record on the server
-
+					NetworkInterface.StopListening();
 					Log("giving up connecting, will find another match. Cannot connect to " + otherClient);
 
 					// We failed to connect to the peer, so explicitly ask the server not to match us with the same peer again
@@ -537,6 +545,8 @@ namespace Assets.SpatialMatchmaking
 
 				if (!isHost)
 					break;
+				else
+					NetworkInterface.StopListening();
 			}
 			
 			//	only reached if !isHost			

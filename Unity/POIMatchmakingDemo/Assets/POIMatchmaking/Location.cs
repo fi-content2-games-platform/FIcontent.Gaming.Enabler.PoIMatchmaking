@@ -1,4 +1,4 @@
-﻿namespace Assets.SpatialMatchmaking
+﻿namespace Assets.POIMatchmaking
 {
 	public struct Location
 	{

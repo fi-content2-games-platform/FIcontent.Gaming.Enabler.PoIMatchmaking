@@ -82,13 +82,13 @@ The client also provides an option to use a fake location interface, which allow
 instead of using Unity's location API, as that only works on mobile devices.  So, when testing on desktop, enable the 
 fake location interface and optionally use the GUI fields to set the lat/long values it should report.
 
-The client is set to seek matches within a 0m radius; this is tweakable through the MaxMatchRadius field in the 
-Inspector.
+The client is set to seek matches within a 0m radius, as this means that a client will only connect to other clients who are at the same POI; 
+this is tweakable through the MaxMatchRadius field in the Inspector.
 
-If while running the code, the following error appears: "connection request to 67.225.180.24:50005 failed. Are you sure the server 
-can be connected to", this may mean that the Unity Master Server is down. This Unity demo can still run locally on your machine 
-running your own instance of the Unity Master Server. Download "Master Server" and "Facilitator" from http://unity3d.com/master-server
-.Compile code and run MasterServer.exe and Facilitator.exe. Uncomment Awake() in UnityNetworkInterface.cs. The value for MasterServer.port 
+If while running the code, the following error appears: "Connection request to 67.225.180.24:50005 failed. Are you sure the server 
+can be connected to", this may mean that the Unity Master Server is down. This Unity demo can still run locally on your machine by
+running your own instance of the Unity Master Server. Download "Master Server" and "Facilitator" from http://unity3d.com/master-server. 
+Compile code and run MasterServer.exe and Facilitator.exe. Uncomment Awake() in UnityNetworkInterface.cs. The value for MasterServer.port 
 will need to be changed to the value that is displayed when you run MasterServer.exe.
 
 The role of host is automatically assigned to a client by the server. Only a host will continue to loop through the code, checking for 
