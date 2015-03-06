@@ -97,7 +97,7 @@ You can use GUI manager page at http://fi-cloud:8080/manager to deploy/stop war 
 to deploy" box, click "Choose file", navigate to the war file you wish to deploy, select, then click "Deploy". All loaded war 
 files are listed in the "Applications" box, and each has commnds to stop, reload, etc., the application. The name of the war will
 be what you need to add to the url path to access the war.
-To stop the Tomcat server, run <installation folder>/bin/shutdown
+To stop the Tomcat server, run ```<tomcat installation folder>/bin/shutdown```
 See [this document](http://tomcat.apache.org/tomcat-4.1-doc/RUNNING.txt) for more details on running/stopping your tomcat server
 
 ####Jetty:
