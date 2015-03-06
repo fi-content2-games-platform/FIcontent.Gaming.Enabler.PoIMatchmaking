@@ -31,8 +31,8 @@ namespace Assets
 		private List<string> dontMatchWith = new List<string>(); //the list containing all clients for this client's requirements.requireNotUuid
 
 		//match radius
-		private string _testMatchRadius = "500";
-		private int _matchRadius = 500; //m. The default radius for matching two clients
+		private string _testMatchRadius = "0";
+		private int _matchRadius = 0; //m. The default radius for matching two clients
 
 		//snap radius
 		private string _testSnapRadius = "75";
