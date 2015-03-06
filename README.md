@@ -60,19 +60,6 @@ The section of pom.xml containing settings for Tomcat/Jetty:
         </plugins>
     </build>
 ```
-	
-To build the war file:
-use a terminal/command prompt to change the directory to that containing the pom.xml file and run: ```mvn package```
-You should see text scrolling, and then
-```
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time: <some value>
-[INFO] Finished at: <some value>
-[INFO] Final Memory: <some value>
-[INFO] ------------------------------------------------------------------------
-```
 
 ####Tomcat:
 [Download and install Tomcat](http://tomcat.apache.org/) (Installation guides can be found under the "Documentation" 
@@ -93,6 +80,18 @@ To run Tomcat on Windows, run ```<tomcat installation folder>/bin/startup```. If
 INFO: Server startup in <number> ms
 ````
 Assuming that Tomcat is configured to run on port 8080, it should now be accessible from http://fi-cloud:8080
+
+To build a war: use a terminal/command prompt to change the directory to that containing the pom.xml file and run: ```mvn package```
+You should see text scrolling, and then
+```
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: <some value>
+[INFO] Finished at: <some value>
+[INFO] Final Memory: <some value>
+[INFO] ------------------------------------------------------------------------
+```
 You can use GUI manager page at http://fi-cloud:8080/manager to deploy/stop war files. To deploy a war file, use the "WAR file 
 to deploy" box, click "Choose file", navigate to the war file you wish to deploy, select, then click "Deploy". All loaded war 
 files are listed in the "Applications" box, and each has commnds to stop, reload, etc., the application. The name of the war will
@@ -108,7 +107,7 @@ If successful, you should see
 [INFO] Started Jetty Server
 ```
 Jetty will now be running on the port specified in pom.xml, eg. http://127.0.0.1:8888 or http://fi-cloud:8888 if you have added it
-to your hosts file
+to your hosts file (see "Tomcat" above)
 To stop: type Ctrl+c, type 'y', press Enter button
 
 Unity client package
