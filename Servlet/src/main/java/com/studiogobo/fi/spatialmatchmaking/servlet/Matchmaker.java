@@ -47,13 +47,13 @@ public class Matchmaker
         {
 
             //delete for now
-//           // Expire clients who have been idle for a long time
-//            if (record.AgeMillis() > 60000)
-//            {
-//                Log("client " + record.clientRecord.id +" has been idle for a long time. Delete");
-//                DeleteClient(record.clientRecord.id, true);
-//                continue;
-//            }
+           // Expire clients who have been idle for a long time
+            if (record.AgeMillis() > 60000)
+            {
+                Log("client " + record.clientRecord.id +" has been idle for a long time. Delete");
+                DeleteClient(record.clientRecord.id, true);
+                continue;
+            }
 
 //            // Ignore inactive clients
 //            if (!record.active)

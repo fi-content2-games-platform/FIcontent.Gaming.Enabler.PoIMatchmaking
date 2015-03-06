@@ -9,8 +9,10 @@ Software Requirements
 
 To build the servlet you need a JDK and Maven.  The Java library dependencies will be downloaded automatically by 
 Maven.  I use jdk1.7.0.25 from Oracle and Maven 3.1.1 from Apache.
+You will need to download Maven from http://maven.apache.org/download.cgi and follow the installation instructions at 
+http://maven.apache.org/download.cgi#Installation
 
-The Unity package and project were built with Unity 4.2.2f1, and should work on later versions but may fail to 
+The Unity package and project were built with Unity 5.0.0f4, and should work on later versions but may fail to 
 import cleanly on earlier versions.
 
 Servlet
@@ -27,22 +29,87 @@ instance of the servlet and test against that.
 
 To use the tomcat maven plugin you may need to edit the relevant configuration section of pom.xml.  In particular 
 it is currently set to deploy to host 'fi-cloud', which you can locally alias to an IP address via /etc/hosts 
-(%WINDOWS%\system32\drivers\etc\hosts).  You may need to edit the other configuration settings, and also be aware 
+(%WINDOWS%\system32\drivers\etc\hosts).  
+Eg. you can add the following entry to your hosts file
+127.0.0.1		fi-cloud
+You may need to edit the other configuration settings, and also be aware 
 that login/password details for managing the Tomcat server are stored for maven in a local configuration file 
 (~/.m2/settings.xml), not in the git repository.  Google "tomcat-maven-plugin settings.xml" for more information.
 
-The main maven goals that are useful here are:
+The section of pom.xml containing settings for Tomcat/Jetty:
+```xml
+	<build>
+        <plugins>
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>7.2.0.v20101020</version>
+                <configuration>
+                    <systemProperties>
+                        <systemProperty>
+                            <name>jetty.port</name>
+                            <value>8888</value>
+                        </systemProperty>
+                    </systemProperties>
 
-<dl>
-<dt>mvn tomcat:redeploy</dt>
-<dd>Update the server with a new build of the servlet; this also restarts the perpetual running instance of the servlet</dd>
-<dt>mvn jetty:run</dt>
-<dd>Run the servlet locally using Jetty in the foreground</dd>
-<dt>mvn jetty:start</dt>
-<dd>Run the servlet locally using Jetty in the background</dd>
-<dt>mvn jetty:stop</dt>
-<dd>Kill any running Jetty instance, either in the foreground or the background</dd>
-</dl>
+                    <stopPort>8889</stopPort>
+                    <stopKey>ApparentlyNotOptional</stopKey>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>tomcat-maven-plugin</artifactId>
+                <version>1.1</version>
+                <configuration>
+                    <url>http://fi-cloud:8080/manager</url>
+                    <server>TomcatServer</server>
+                    <path>/matcher</path>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>```
+	
+To build the war file:
+use a terminal/command prompt to change the directory to that containing the pom.xml file and run: mvn package
+You should see text scrolling, and then
+```
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: <some value>
+[INFO] Finished at: <some value>
+[INFO] Final Memory: <some value>
+[INFO] ------------------------------------------------------------------------
+```
+
+Tomcat:
+Download and install Tomcat from http://tomcat.apache.org/ (Installation guides can be found under the "Documentation" 
+menu item on the same page). To use the tomcat maven plugin you may need to edit the relevant configuration section Tomcat's 
+entry in the plugin section of pom.xml. In particular it is currently set to deploy to host 'fi-cloud', which you can locally 
+alias to an IP address via /etc/hosts (%WINDOWS%\system32\drivers\etc\hosts). 
+Eg. you can add the following entry to your hosts file
+```127.0.0.1		fi-cloud```
+
+You may need to edit the other configuration settings, and also be aware that login/password details for managing the Tomcat 
+server are stored for maven in a local configuration file (<maven installation folder>/conf/settings.xml), not in the git 
+repository. Google "tomcat-maven-plugin settings.xml" for more information.
+	
+To run Tomcat on Windows, run <tomcat installation folder>/bin/startup. If the server successfully started, you should see:
+INFO: Server startup in <number> ms
+Assuming that Tomcat is configured to run on port 8080, it should now be accessible from http://fi-cloud:8080
+You can use GUI manager page at http://fi-cloud:8080/manager to deploy/stop war files. To deploy a war file, use the "WAR file 
+to deploy" box, click "Choose file", navigate to the war file you wish to deploy, select, then click "Deploy". All loaded war 
+files are listed in the "Applications" box, and each has commnds to stop, reload, etc., the application. The name of the war will
+be what you need to add to the url path to access the war.
+To stop the Tomcat server, run <installation folder>/bin/shutdown
+See http://tomcat.apache.org/tomcat-4.1-doc/RUNNING.txt for more details on running/stopping your tomcat server
+
+Jetty:
+To run jetty, use a terminal/command prompt to navigate to the folder that contains the pom.xml file and run: mvn jetty:run
+If successful, you should see
+```[INFO] Started Jetty Server```
+Jetty will now be running on the port specified in pom.xml, eg. http://fi-cloud:8888
+To stop: Ctrl+c, type 'y', press Enter button
 
 Unity client package
 --------------------
@@ -67,12 +134,6 @@ in the editor can also connect to other standalone instances.
 It should work on all platfroms, and has been tested on Windows Desktop and Android.  There are some caveats on mobile,
 however, due to Unity's poor WWW interface.
 
-Before building the player, select the "Main Camera" game object and, in the Inspector, edit the "Base Url" setting of
-the "POIMatchmakingDemo" component.  This specifies which instance of the servlet to use - for local Jetty use it 
-should probably be http://localhost:8888, or with the default deployment settings you can use http://fi-cloud:8080/matcher, 
-substituting for fi-cloud if you don't have a name alias set up in /etc/hosts. Note that "matcher" in the URL refers to the name 
-of the war file generated by maven.
-
 The client simulates connectivity issues according to three bits which you can toggle before pressing the 'Go' button. 
 The initial setting of these bits is random, and the background colour also indicates their state.  Clients can only 
 communicate with each other if they share at least one set bit in common.  This can be used loosely to simulate NAT 
@@ -84,6 +145,28 @@ fake location interface and optionally use the GUI fields to set the lat/long va
 
 The client is set to seek matches within a 0m radius, as this means that a client will only connect to other clients who are at the same POI; 
 this is tweakable through the MaxMatchRadius field in the Inspector.
+
+The following instructions can be used to create a unity project and interact with the server:
+1. Create a new project in Unity
+2. In the top menu bar, click Assets->Import Package->Custom Package. Ensure all files are ticked, and click "Import"
+3. Open DemoScene.scene. There should be no errors in the output box
+4. In the top menu bar, click File->Build Settings
+5. Under the "Scenes to Build" section, click "Add Current". 
+6. Click the "Player Settings" button and open the "Resolution and Presentation" tab
+  1. Ensure that "Default is Full Screen" is not ticked
+  2. Set Default Screen Width to 400
+  3. Set Default Screen Height to 800
+  4. Ensure Run In Background is ticked
+  5. Ensure "Resizeable Window" is ticked	
+7. Click Build and choose wthe file name and where to save the file.
+8. Run a jetty or tomcat instance of the server
+9. Open two instances of the client, ie., the program you have just built
+  - Ensure that you can see the all buttons in the GUI, including "Quit" at the bottom.
+  - If running on Windows, you may get a "Windows Security Alert", as the application needs access to your network to run. It is recommended to select Domain and/or Private network
+10. Type the url of your server in "Base Url" and click "Set"
+11. To test that two clients can connect, give them the same lat/long values, make sure they have at least one conn bit in common, then click "Go"
+  - Unless you have provided provide implementations of ILocationInterface and INetworkInterface, you will need to tick the box at "Fake Location", and enter a latitude/longitude value, or use the default lat/long value, then click "Set".
+12. The two clients should register with the service, and connect to each other. See the jetty/tomcat server output to see the steps of the connection between the two clients
 
 If while running the code, the following error appears: "Connection request to 67.225.180.24:50005 failed. Are you sure the server 
 can be connected to", this may mean that the Unity Master Server is down. This Unity demo can still run locally on your machine by
