@@ -146,7 +146,7 @@ fake location interface and optionally use the GUI fields to set the lat/long va
 The client is set to seek matches within a 0m radius, as this means that a client will only connect to other clients who are at the same POI; 
 this is tweakable through the MaxMatchRadius field in the Inspector.
 
-The following instructions can be used to create a unity project and interact with the server:
+####The following instructions can be used to create a unity project and interact with the server:
 
 1. Create a new project in Unity
 2. In the top menu bar, click "Assets", "Import Package", "Custom Package". Ensure all files are ticked, and click "Import"
