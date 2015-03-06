@@ -9,7 +9,7 @@ Software Requirements
 
 To build the servlet you need a JDK and Maven.  The Java library dependencies will be downloaded automatically by 
 Maven.  I used jdk1.7.0.25 from Oracle and Maven 3.1.1 from Apache.
-You will need to [download Maven](http://maven.apache.org/download.cgi) and follow the [installation instruction] 
+You will need to [download Maven](http://maven.apache.org/download.cgi) and follow the [installation instructions] 
 (http://maven.apache.org/download.cgi#Installation)
 
 The Unity package and project were built with Unity 5.0.0f4, and should work on later versions but may fail to 
@@ -26,15 +26,6 @@ IDE such as IntelliJ IDEA.
 The Maven project uses the tomcat and jetty plugins.  The tomcat plugin primarily allows deployment to an Apache 
 Tomcat server.  The jetty plugin provides a local servlet container, allowing you to more easily run a local 
 instance of the servlet and test against that.
-
-To use the tomcat maven plugin you may need to edit the relevant configuration section of pom.xml.  In particular 
-it is currently set to deploy to host 'fi-cloud', which you can locally alias to an IP address via /etc/hosts 
-(%WINDOWS%\system32\drivers\etc\hosts).  
-Eg. you can add the following entry to your hosts file
-127.0.0.1		fi-cloud
-You may need to edit the other configuration settings, and also be aware 
-that login/password details for managing the Tomcat server are stored for maven in a local configuration file 
-(~/.m2/settings.xml), not in the git repository.  Google "tomcat-maven-plugin settings.xml" for more information.
 
 The section of pom.xml containing settings for Tomcat/Jetty:
 ```xml
@@ -84,7 +75,7 @@ You should see text scrolling, and then
 ```
 
 ####Tomcat:
-Download and install Tomcat from http://tomcat.apache.org/ (Installation guides can be found under the "Documentation" 
+[Download and install Tomcat](http://tomcat.apache.org/) (Installation guides can be found under the "Documentation" 
 menu item on the same page). To use the tomcat maven plugin you may need to edit the relevant configuration section Tomcat's 
 entry in the plugin section of pom.xml. In particular it is currently set to deploy to host 'fi-cloud', which you can locally 
 alias to an IP address via /etc/hosts (%WINDOWS%\system32\drivers\etc\hosts). 
@@ -105,13 +96,16 @@ to deploy" box, click "Choose file", navigate to the war file you wish to deploy
 files are listed in the "Applications" box, and each has commnds to stop, reload, etc., the application. The name of the war will
 be what you need to add to the url path to access the war.
 To stop the Tomcat server, run <installation folder>/bin/shutdown
-See http://tomcat.apache.org/tomcat-4.1-doc/RUNNING.txt for more details on running/stopping your tomcat server
+See [this document](http://tomcat.apache.org/tomcat-4.1-doc/RUNNING.txt) for more details on running/stopping your tomcat server
 
 ####Jetty:
 To run jetty, use a terminal/command prompt to navigate to the folder that contains the pom.xml file and run: mvn jetty:run
 If successful, you should see
-```[INFO] Started Jetty Server```
-Jetty will now be running on the port specified in pom.xml, eg. http://fi-cloud:8888
+```
+[INFO] Started Jetty Server
+```
+Jetty will now be running on the port specified in pom.xml, eg. http://127.0.0.1:8888 or http://fi-cloud:8888 if you have added it
+to your hosts file
 To stop: Ctrl+c, type 'y', press Enter button
 
 Unity client package
@@ -173,7 +167,7 @@ The following instructions can be used to create a unity project and interact wi
 
 If while running the code, the following error appears: "Connection request to 67.225.180.24:50005 failed. Are you sure the server 
 can be connected to", this may mean that the Unity Master Server is down. This Unity demo can still run locally on your machine by
-running your own instance of the Unity Master Server. Download "Master Server" and "Facilitator" from http://unity3d.com/master-server. 
+running your own instance of the Unity Master Server. [Download "Master Server" and "Facilitator"](http://unity3d.com/master-server). 
 Compile code and run MasterServer.exe and Facilitator.exe. Uncomment Awake() in UnityNetworkInterface.cs. The value for MasterServer.port 
 will need to be changed to the value that is displayed when you run MasterServer.exe.
 
