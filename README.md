@@ -62,7 +62,7 @@ The section of pom.xml containing settings for Tomcat/Jetty:
 ```
 	
 To build the war file:
-use a terminal/command prompt to change the directory to that containing the pom.xml file and run: mvn package
+use a terminal/command prompt to change the directory to that containing the pom.xml file and run: ```mvn package```
 You should see text scrolling, and then
 ```
 [INFO] ------------------------------------------------------------------------
@@ -88,8 +88,10 @@ You may need to edit the other configuration settings, and also be aware that lo
 server are stored for maven in a local configuration file (<maven installation folder>/conf/settings.xml), not in the git 
 repository. Google "tomcat-maven-plugin settings.xml" for more information.
 	
-To run Tomcat on Windows, run <tomcat installation folder>/bin/startup. If the server successfully started, you should see:
+To run Tomcat on Windows, run ```<tomcat installation folder>/bin/startup```. If the server successfully started, you should see:
+```
 INFO: Server startup in <number> ms
+````
 Assuming that Tomcat is configured to run on port 8080, it should now be accessible from http://fi-cloud:8080
 You can use GUI manager page at http://fi-cloud:8080/manager to deploy/stop war files. To deploy a war file, use the "WAR file 
 to deploy" box, click "Choose file", navigate to the war file you wish to deploy, select, then click "Deploy". All loaded war 
@@ -99,14 +101,15 @@ To stop the Tomcat server, run <installation folder>/bin/shutdown
 See [this document](http://tomcat.apache.org/tomcat-4.1-doc/RUNNING.txt) for more details on running/stopping your tomcat server
 
 ####Jetty:
-To run jetty, use a terminal/command prompt to navigate to the folder that contains the pom.xml file and run: mvn jetty:run
+To run jetty, use a terminal/command prompt to navigate to the folder that contains the pom.xml file and run: 
+```mvn jetty:run```
 If successful, you should see
 ```
 [INFO] Started Jetty Server
 ```
 Jetty will now be running on the port specified in pom.xml, eg. http://127.0.0.1:8888 or http://fi-cloud:8888 if you have added it
 to your hosts file
-To stop: Ctrl+c, type 'y', press Enter button
+To stop: type Ctrl+c, type 'y', press Enter button
 
 Unity client package
 --------------------
