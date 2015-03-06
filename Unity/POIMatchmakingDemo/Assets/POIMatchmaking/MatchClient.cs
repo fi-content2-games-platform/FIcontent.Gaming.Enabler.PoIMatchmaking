@@ -28,7 +28,6 @@ namespace Assets.POIMatchmaking
 		/// The base URL of the matchmaking service
 		/// </summary>
 		public string BaseUrl;
-		//original value (in inspector): http://130.206.83.114:8080/matcher
 		
 		/// <summary>
 		/// A game name, which is converted into a matchmaking requirement so you only match with other instances of the same game
@@ -107,22 +106,27 @@ namespace Assets.POIMatchmaking
 		/// </summary>
 		private bool IsServerInitiliazed = false;
 	
-
-		//variables used when registering a client
+		/// <summary>
+		///variables used when registering a client
+		/// </summary>
 		WWW www;
 		JsonObject postData = new JsonObject();
 		JsonArray requirements = new JsonArray();
-		Hashtable headers = new Hashtable(); 
+		Dictionary<string, string> headers = new Dictionary<string, string>();
 		JsonObject clientData = new JsonObject();
 
+		/// <summary>
+		/// options when searching for POIs
+		/// </summary>
 		JsonObject poiSearchOptions = new JsonObject();
 		public int snapRadius = 75; //m. The default radius for when a client is searching for the nearest POI
 		private int maxSearchRadius = 2000; //m. The max search radius to use when searching for nearby POIs
 		private int maxPoisReturned = 50; //the max amount of POIs to return when querying the database
 		private String poiGeUrl = "http://130.206.80.175/api/poi"; //the path to POI-GE's radial_search.php
-		//private String poiGeUrl = "http://localhost/poi-ge"; //the path to POI-GE's radial_search.php
 
-		//used when the client manually updates it's record, set in SpatialMatchmakingDemo.cs, used as requireNotUuid
+		/// <summary>
+		/// Used when the client manually updates it's record, set in SpatialMatchmakingDemo.cs, used as requireNotUuidd
+		/// </summary>
 		public List<String> dontMatchWith = new List<String>(); //the list containing all clients for this client's requirements.requireNotUuid
 
 
@@ -316,12 +320,12 @@ namespace Assets.POIMatchmaking
 						{ "requirements", requirements },
 						{ "poiSearchOptions", poiSearchOptions}
 					};
-					
-					headers = new Hashtable();
-					headers["Content-Type"] = "application/json";
+
+					headers = new Dictionary<string, string>();
+					headers.Add("Content-Type","application/json");
+
 					www = new WWW(BaseUrl + "/clients", postData.ToByteArray(), headers);
 					yield return www;
-
 
 					if (www.error != null)
 					{

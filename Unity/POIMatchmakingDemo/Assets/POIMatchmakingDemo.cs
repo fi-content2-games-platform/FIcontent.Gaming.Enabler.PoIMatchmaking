@@ -6,8 +6,7 @@ namespace Assets
 {
 	public class POIMatchmakingDemo : MonoBehaviour
 	{
-		public string BaseUrl = "http://fi-cloud:8080";
-		public int MaxMatchRadius = 500;
+		//public int MaxMatchRadius = 500;
 		public GUISkin LargeGuiSkin;
 		
 		private MatchClient _matchClient;
@@ -15,6 +14,8 @@ namespace Assets
 		private string _key;
 		private readonly List<string> _log = new List<string>();
 		
+		private string _baseUrl = "http://fi-cloud:8888"; //the default value for the base url
+		private string _testBaseUrl = "http://fi-cloud:8888"; 
 		private TestLocationInterface _testLocationInterface;
 
 		//just north-west of Nikolai church, Berlin (Germany)
@@ -23,20 +24,19 @@ namespace Assets
 		
 		private bool _isGoClicked = false; //false if we have not registered yet. True if we have
 		
-		//Hove
-//		private string _testLatitude = "50.83946";
-//		private string _testLongitude = "-0.1729644";
-		
 		//for setting requirement of not Uuid
 		private string _testReqNotUuid = "";
 		private string _reqNotUuid = "";
 		private string _reqNotUuidLabel = ""; //a string displaying all uuids, seperated by commas
 		private List<string> dontMatchWith = new List<string>(); //the list containing all clients for this client's requirements.requireNotUuid
 
+		//match radius
+		private string _testMatchRadius = "500";
+		private int _matchRadius = 500; //m. The default radius for matching two clients
 
 		//snap radius
 		private string _testSnapRadius = "75";
-		private int _snapRadius = 75; //m. The default radius for when a client is searching for the nearest PO
+		private int _snapRadius = 75; //m. The default radius for when a client is searching for the nearest PoI
 		
 		
 		private bool _useTestLocationInterface;
@@ -90,6 +90,27 @@ namespace Assets
 			{
 				GUILayout.BeginVertical();
 				{
+					//base url, the url of the server
+					GUILayout.BeginHorizontal();
+					GUILayout.Label("Base url: ", GUILayout.Width(quarterWidth));
+					_testBaseUrl = GUILayout.TextField(_testBaseUrl, GUILayout.Width(quarterWidth*2));
+
+					if(!_isGoClicked && GUILayout.Button("Set", GUILayout.ExpandWidth(false))) 
+						//updating the connection url is currently not supported in the GUI
+					{
+						if (_testBaseUrl.EndsWith("/")) // remove end "/"
+							_testBaseUrl = _testBaseUrl.Substring(0, _testBaseUrl.Length-1);
+						_baseUrl = _testBaseUrl;
+					}
+
+					GUILayout.EndHorizontal();					
+					GUILayout.BeginHorizontal();
+					GUILayout.Label("", GUILayout.Width(quarterWidth));
+					GUILayout.Label(string.Format(_baseUrl), GUILayout.Width(quarterWidth*2));
+					GUILayout.FlexibleSpace();
+					GUILayout.EndHorizontal();
+
+					//client location
 					GUILayout.BeginHorizontal();
 					GUILayout.Label("Fake location", GUILayout.Width(quarterWidth));
 					_useTestLocationInterface = GUILayout.Toggle(_useTestLocationInterface, "");
@@ -145,10 +166,28 @@ namespace Assets
 						GUILayout.FlexibleSpace();
 						GUILayout.EndHorizontal();
 					}
+
+					//match radius
+					GUILayout.BeginHorizontal();
+					GUILayout.Label("Match radius (m): ", GUILayout.Width(quarterWidth));
+					_testSnapRadius = GUILayout.TextField(_testMatchRadius, GUILayout.Width(quarterWidth*2));
 					
+					if(!_isGoClicked && GUILayout.Button("Set", GUILayout.ExpandWidth(false)))
+						//updating the max match radius is currently not supported in the GUI
+					{
+						int.TryParse(_testMatchRadius, out _matchRadius);
+					}
+
+					GUILayout.EndHorizontal();					
+					GUILayout.BeginHorizontal();
+					GUILayout.Label("", GUILayout.Width(quarterWidth));
+					GUILayout.Label(string.Format("{0}", ""+_matchRadius), GUILayout.Width(quarterWidth));
+					GUILayout.FlexibleSpace();
+					GUILayout.EndHorizontal();
+
 					//snap radius
 					GUILayout.BeginHorizontal();
-					GUILayout.Label("Snap radius (m): ", GUILayout.Width(quarterWidth));
+					GUILayout.Label("PoI snap radius (m): ", GUILayout.Width(quarterWidth));
 					_testSnapRadius = GUILayout.TextField(_testSnapRadius, GUILayout.Width(quarterWidth*2));
 					
 					if(!_isGoClicked && GUILayout.Button("Set", GUILayout.ExpandWidth(false)))
@@ -262,10 +301,10 @@ namespace Assets
 			_matchClient = gameObject.AddComponent<MatchClient>();
 			_matchClient.NetworkInterface = unityNetworkInterface;
 			_matchClient.LocationInterface = _testLocationInterface;
-			_matchClient.BaseUrl = BaseUrl;
+			_matchClient.BaseUrl = _baseUrl;
 			_matchClient.snapRadius = _snapRadius;
-			_matchClient.GameName = "com.studiogobo.fi.SpatialMatchmaking.Unity.SpatialMatchmakingDemo";
-			_matchClient.MaxMatchRadius = MaxMatchRadius;
+			_matchClient.GameName = "com.studiogobo.fi.SpatialMatchmaking.Unity.PoiMatchmakingDemo";
+			_matchClient.MaxMatchRadius = _matchRadius;
 			_matchClient.OnSuccess += Success;
 			//_matchClient.OnFailure += ...;
 			_matchClient.OnLogEvent += ProcessLogEvent;
@@ -288,7 +327,7 @@ namespace Assets
 			if (Network.isServer)
 			{
 				_key = string.Format("{0}", (int)(10000*Random.value));
-				networkView.RPC("RpcSetKey", RPCMode.Others, _key);
+				GetComponent<NetworkView>().RPC("RpcSetKey", RPCMode.Others, _key);
 			}
 		}
 		

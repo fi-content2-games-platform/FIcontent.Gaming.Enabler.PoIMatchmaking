@@ -109,7 +109,7 @@ namespace Assets.POIMatchmaking
             }
 
             Connected = true;
-            networkView.RPC("RpcWelcome", info.sender);
+			GetComponent<NetworkView>().RPC("RpcWelcome", info.sender);
         }
 
         public void StopListening()
@@ -151,7 +151,7 @@ namespace Assets.POIMatchmaking
 
         public void OnConnectedToServer()
         {
-            networkView.RPC("RpcHelloFrom", RPCMode.Server, _localUuid + "!" + DebugConnectivityBits);
+			GetComponent<NetworkView>().RPC("RpcHelloFrom", RPCMode.Server, _localUuid + "!" + DebugConnectivityBits);
         }
 
         [RPC]
