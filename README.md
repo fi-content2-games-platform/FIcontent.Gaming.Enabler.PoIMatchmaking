@@ -8,9 +8,9 @@ Software Requirements
 ---------------------
 
 To build the servlet you need a JDK and Maven.  The Java library dependencies will be downloaded automatically by 
-Maven.  I use jdk1.7.0.25 from Oracle and Maven 3.1.1 from Apache.
-You will need to download Maven from http://maven.apache.org/download.cgi and follow the installation instructions at 
-http://maven.apache.org/download.cgi#Installation
+Maven.  I used jdk1.7.0.25 from Oracle and Maven 3.1.1 from Apache.
+You will need to download Maven from [link](http://maven.apache.org/download.cgi) and follow the installation instructions at 
+[link](http://maven.apache.org/download.cgi#Installation)
 
 The Unity package and project were built with Unity 5.0.0f4, and should work on later versions but may fail to 
 import cleanly on earlier versions.
@@ -67,7 +67,8 @@ The section of pom.xml containing settings for Tomcat/Jetty:
                 </configuration>
             </plugin>
         </plugins>
-    </build>```
+    </build>
+```
 	
 To build the war file:
 use a terminal/command prompt to change the directory to that containing the pom.xml file and run: mvn package
