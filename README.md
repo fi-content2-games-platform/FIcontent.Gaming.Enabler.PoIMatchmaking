@@ -9,8 +9,8 @@ Software Requirements
 
 To build the servlet you need a JDK and Maven.  The Java library dependencies will be downloaded automatically by 
 Maven.  I used jdk1.7.0.25 from Oracle and Maven 3.1.1 from Apache.
-You will need to download Maven from [link](http://maven.apache.org/download.cgi) and follow the installation instructions at 
-[link](http://maven.apache.org/download.cgi#Installation)
+You will need to [download Maven](http://maven.apache.org/download.cgi) and follow the [installation instruction] 
+(http://maven.apache.org/download.cgi#Installation)
 
 The Unity package and project were built with Unity 5.0.0f4, and should work on later versions but may fail to 
 import cleanly on earlier versions.
@@ -83,13 +83,15 @@ You should see text scrolling, and then
 [INFO] ------------------------------------------------------------------------
 ```
 
-Tomcat:
+####Tomcat:
 Download and install Tomcat from http://tomcat.apache.org/ (Installation guides can be found under the "Documentation" 
 menu item on the same page). To use the tomcat maven plugin you may need to edit the relevant configuration section Tomcat's 
 entry in the plugin section of pom.xml. In particular it is currently set to deploy to host 'fi-cloud', which you can locally 
 alias to an IP address via /etc/hosts (%WINDOWS%\system32\drivers\etc\hosts). 
 Eg. you can add the following entry to your hosts file
-```127.0.0.1		fi-cloud```
+```
+127.0.0.1		fi-cloud
+```
 
 You may need to edit the other configuration settings, and also be aware that login/password details for managing the Tomcat 
 server are stored for maven in a local configuration file (<maven installation folder>/conf/settings.xml), not in the git 
@@ -105,7 +107,7 @@ be what you need to add to the url path to access the war.
 To stop the Tomcat server, run <installation folder>/bin/shutdown
 See http://tomcat.apache.org/tomcat-4.1-doc/RUNNING.txt for more details on running/stopping your tomcat server
 
-Jetty:
+####Jetty:
 To run jetty, use a terminal/command prompt to navigate to the folder that contains the pom.xml file and run: mvn jetty:run
 If successful, you should see
 ```[INFO] Started Jetty Server```
