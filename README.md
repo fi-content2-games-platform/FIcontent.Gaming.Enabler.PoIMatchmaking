@@ -149,17 +149,17 @@ this is tweakable through the MaxMatchRadius field in the Inspector.
 The following instructions can be used to create a unity project and interact with the server:
 
 1. Create a new project in Unity
-2. In the top menu bar, click Assets, Import Package, Custom Package. Ensure all files are ticked, and click "Import"
+2. In the top menu bar, click "Assets", "Import Package", "Custom Package". Ensure all files are ticked, and click "Import"
 3. Open DemoScene.scene. There should be no errors in the output box
-4. In the top menu bar, click File, Build Settings
-5. Under the "Scenes to Build" section, click "Add Current". 
+4. In the top menu bar, click "File", "Build Settings"
+5. Under the "Scenes to Build" section, click "Add Current" 
 6. Click the "Player Settings" button and open the "Resolution and Presentation" tab
   1. Ensure that "Default is Full Screen" is not ticked
   2. Set Default Screen Width to 400
   3. Set Default Screen Height to 800
   4. Ensure Run In Background is ticked
   5. Ensure "Resizeable Window" is ticked	
-7. Click Build and choose wthe file name and where to save the file.
+7. Click Build and choose the file name and where to save the file
 8. Run a jetty or tomcat instance of the server
 9. Open two instances of the client, ie., the program you have just built
   - Ensure that you can see the all buttons in the GUI, including "Quit" at the bottom.
@@ -168,8 +168,6 @@ The following instructions can be used to create a unity project and interact wi
 11. To test that two clients can connect, give them the same lat/long values, make sure they have at least one conn bit in common, then click "Go"
   - Unless you have provided provide implementations of ILocationInterface and INetworkInterface, you will need to tick the box at "Fake Location", and enter a latitude/longitude value, or use the default lat/long value, then click "Set".
 12. The two clients should register with the service, and connect to each other. See the jetty/tomcat server output to see the steps of the connection between the two clients
-
-
 
 If while running the code, the following error appears: "Connection request to 67.225.180.24:50005 failed. Are you sure the server 
 can be connected to", this may mean that the Unity Master Server is down. This Unity demo can still run locally on your machine by
