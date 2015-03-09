@@ -161,8 +161,8 @@ this is tweakable through the MaxMatchRadius field in the Inspector.
 5. Under the "Scenes to Build" section, click "Add Current" 
 6. Click the "Player Settings" button and open the "Resolution and Presentation" tab
   1. Ensure that "Default is Full Screen" is not ticked
-  2. Set "Default Screen Width" to 400
-  3. Set "Default Screen Height" to 800
+  2. Set "Default Screen Width" to 600
+  3. Set "Default Screen Height" to 900
   4. Ensure "Run In Background" is ticked
   5. Ensure "Resizeable Window" is ticked	
 7. Click "Build" and choose the file name and where to save the file
