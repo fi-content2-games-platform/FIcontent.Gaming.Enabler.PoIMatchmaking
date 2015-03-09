@@ -6,15 +6,15 @@ This package contains a sample server, a Unity client implementation, and a demo
 Software Requirements
 ---------------------
 
-If you want to build the servlet yourself, you need a JDK and Maven.  The Java library dependencies will be downloaded automatically by 
+If you want to build the servlet yourself, or run the servlet using jetty, you need a JDK and Maven.  The Java library dependencies will be downloaded automatically by 
 Maven.  I used jdk1.7.0.25 from Oracle and Maven 3.1.1 from Apache. The latest JDK can be found [here](http://www.oracle.com/technetwork/java/javase/downloads/index.html). 
 [Download link for Maven](http://maven.apache.org/download.cgi) and [installation instructions] 
-(http://maven.apache.org/download.cgi#Installation). You will also need Maven if you intend to run the servlet using Jetty.
+(http://maven.apache.org/download.cgi#Installation).
 
-If you want to deploy the servlet using Tomcat, you can download and install Tomcat from [here](http://tomcat.apache.org/) (Installation guides can be found under the "Documentation" 
+If you want to deploy the servlet using Tomcat, [download]((http://tomcat.apache.org/)) and install Tomcat (Installation guides can be found under the "Documentation" 
 menu item on the same page). 
 
-The Unity demo requires Unity. Download it from [here](https://unity3d.com/get-unity) and follow the installation instructions. The Unity package and project were built with Unity 5.0.0f4, and should work on later versions but may fail to 
+The Unity demo requires Unity. [Download it](https://unity3d.com/get-unity) and follow the installation instructions. The Unity package and project were built with Unity 5.0.0f4, and should work on later versions but may fail to 
 import cleanly on earlier versions.
 
 Servlet
@@ -22,11 +22,11 @@ Servlet
 
 The sample server is a Java Servlet intended to run in a Servlet Container such as Apache Tomcat.
 
-You can use the pre-built servlet provided in the "Release" tab, or build your own war file to be deployed in Tomcat. Instructions on running Tomcat can be found in "Tomcat" below) 
+You can use the pre-built servlet provided in the "Release" tab, or build your own war file to be deployed in Tomcat (Instructions on running Tomcat can be found in "Tomcat" below). 
 Please note that if you are doing so, Tomcat will need to be running on port 8080, and you will need to set up an alias for "fi-cloud" in your hosts file (see "Editing your hosts file" below on how to do this). 
 This is due to the current settings of the pom.xml for the servlet.
 
-To change to of the code of the servlet, or the settings in pom.xml, you will nee to import the project into an IDE such as IntelliJ IDEA. Any changes made to the code will only be reflected once you compile the code.
+To change to of the code of the servlet you will nee to import the project into an IDE such as IntelliJ IDEA and compile after any changes.
 
 The Maven project uses the tomcat and jetty plugins.  The tomcat plugin primarily allows deployment to an Apache 
 Tomcat server.  The jetty plugin provides a local servlet container, allowing you to more easily run a local 
@@ -66,8 +66,8 @@ The section of pom.xml containing settings for Tomcat/Jetty:
     </build>
 ```
 
-#####Building a war file 
-use a terminal/command prompt to change the directory to that containing the pom.xml file and run: ```mvn package```
+#####Building a war file: 
+Use a terminal/command prompt to change the directory to that containing the pom.xml file and run: ```mvn package```
 You should see text scrolling, and then
 ```
 [INFO] ------------------------------------------------------------------------
@@ -79,7 +79,7 @@ You should see text scrolling, and then
 [INFO] ------------------------------------------------------------------------
 ```
 
-#####Editing your hosts file
+#####Editing your hosts file:
 Since both the Tomcat and jetty servers are set to use "fi-cloud" as the application path, you will need to 
 Since both the Tomcat and jetty servers are currently set to deploy to host 'fi-cloud', you can locally 
 alias this to an IP address via /etc/hosts (%WINDOWS%\system32\drivers\etc\hosts). Eg. you can add the following entry to your hosts file
@@ -114,13 +114,13 @@ If successful, you should see
 [INFO] Started Jetty Server
 ```
 Jetty will now be running on the port specified in pom.xml, eg. http://fi-cloud:8888 if you have added it
-to your hosts file (see "Tomcat" above)
+to your hosts file (see "Editing your hosts file" above)
 To stop: type Ctrl+c, type 'y', press Enter button
 
 Unity client package
 --------------------
 
-After importing the client package into your project, when you want to matchmake apply the MatchClient component to
+After importing the client package into your project, when you want to match a client with another, apply the MatchClient component to
 a GameObject, and initialize any public members you need to customize.  You can remove the MatchClient component when 
 matching is complete.
 
