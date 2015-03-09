@@ -1,18 +1,20 @@
 PoIMatchmaking
 ==================
 
-This package contains a sample server, a Unity client implementation, and a demo of the usage of the Unity package. 
-The server also includes a web-based Javascript client for test purposes.
+This package contains a sample server, a Unity client implementation, and a demo of the usage of the Unity package. A pre-built version of this servlet is included in the "Release" tab. 
 
 Software Requirements
 ---------------------
 
-To build the servlet you need a JDK and Maven.  The Java library dependencies will be downloaded automatically by 
-Maven.  I used jdk1.7.0.25 from Oracle and Maven 3.1.1 from Apache.
-You will need to [download Maven](http://maven.apache.org/download.cgi) and follow the [installation instructions] 
-(http://maven.apache.org/download.cgi#Installation)
+If you want to build the servlet yourself, you need a JDK and Maven.  The Java library dependencies will be downloaded automatically by 
+Maven.  I used jdk1.7.0.25 from Oracle and Maven 3.1.1 from Apache. The latest JDK can be found [here](http://www.oracle.com/technetwork/java/javase/downloads/index.html). 
+[Download link for Maven](http://maven.apache.org/download.cgi) and [installation instructions] 
+(http://maven.apache.org/download.cgi#Installation). You will also need Maven if you intend to run the servlet using Jetty.
 
-The Unity package and project were built with Unity 5.0.0f4, and should work on later versions but may fail to 
+If you want to deploy the servlet using Tomcat, you can download and install Tomcat from [here](http://tomcat.apache.org/) (Installation guides can be found under the "Documentation" 
+menu item on the same page). 
+
+The Unity demo requires Unity. Download it from [here](https://unity3d.com/get-unity) and follow the installation instructions. The Unity package and project were built with Unity 5.0.0f4, and should work on later versions but may fail to 
 import cleanly on earlier versions.
 
 Servlet
@@ -20,8 +22,11 @@ Servlet
 
 The sample server is a Java Servlet intended to run in a Servlet Container such as Apache Tomcat.
 
-It is packaged as a Maven project, which may be built and deployed from the command line or imported into an 
-IDE such as IntelliJ IDEA.
+You can use the pre-built servlet provided in the "Release" tab, or build your own war file to be deployed in Tomcat. Instructions on running Tomcat can be found in "Tomcat" below) 
+Please note that if you are doing so, Tomcat will need to be running on port 8080, and you will need to set up an alias for "fi-cloud" in your hosts file (see "Editing your hosts file" below on how to do this). 
+This is due to the current settings of the pom.xml for the servlet.
+
+To change to of the code of the servlet, or the settings in pom.xml, you will nee to import the project into an IDE such as IntelliJ IDEA. Any changes made to the code will only be reflected once you compile the code.
 
 The Maven project uses the tomcat and jetty plugins.  The tomcat plugin primarily allows deployment to an Apache 
 Tomcat server.  The jetty plugin provides a local servlet container, allowing you to more easily run a local 
@@ -61,27 +66,8 @@ The section of pom.xml containing settings for Tomcat/Jetty:
     </build>
 ```
 
-####Tomcat:
-[Download and install Tomcat](http://tomcat.apache.org/) (Installation guides can be found under the "Documentation" 
-menu item on the same page). To use the tomcat maven plugin you may need to edit the relevant configuration section Tomcat's 
-entry in the plugin section of pom.xml. In particular it is currently set to deploy to host 'fi-cloud', which you can locally 
-alias to an IP address via /etc/hosts (%WINDOWS%\system32\drivers\etc\hosts). 
-Eg. you can add the following entry to your hosts file
-```
-127.0.0.1		fi-cloud
-```
-
-You may need to edit the other configuration settings, and also be aware that login/password details for managing the Tomcat 
-server are stored for maven in a local configuration file (<maven installation folder>/conf/settings.xml), not in the git 
-repository. Google "tomcat-maven-plugin settings.xml" for more information.
-	
-To run Tomcat on Windows, run ```<tomcat installation folder>/bin/startup```. If the server successfully started, you should see:
-```
-INFO: Server startup in <number> ms
-````
-Assuming that Tomcat is configured to run on port 8080, it should now be accessible from http://fi-cloud:8080
-
-To build a war: use a terminal/command prompt to change the directory to that containing the pom.xml file and run: ```mvn package```
+#####Building a war file 
+use a terminal/command prompt to change the directory to that containing the pom.xml file and run: ```mvn package```
 You should see text scrolling, and then
 ```
 [INFO] ------------------------------------------------------------------------
@@ -92,9 +78,30 @@ You should see text scrolling, and then
 [INFO] Final Memory: <some value>
 [INFO] ------------------------------------------------------------------------
 ```
+
+#####Editing your hosts file
+Since both the Tomcat and jetty servers are set to use "fi-cloud" as the application path, you will need to 
+Since both the Tomcat and jetty servers are currently set to deploy to host 'fi-cloud', you can locally 
+alias this to an IP address via /etc/hosts (%WINDOWS%\system32\drivers\etc\hosts). Eg. you can add the following entry to your hosts file
+```
+127.0.0.1		fi-cloud
+```
+
+####Tomcat:
+If you are not running the pre-built servlet, you can edit the relevant configuration section Tomcat's 
+entry in the plugin section of pom.xml. You may need to edit the other configuration settings, and also be aware that login/password details for managing the Tomcat 
+server are stored for maven in a local configuration file (<maven installation folder>/conf/settings.xml), not in the git 
+repository. Google "tomcat-maven-plugin settings.xml" for more information.
+	
+To run Tomcat, run ```<tomcat installation folder>/bin/startup```. If the server successfully started, you should see:
+```
+INFO: Server startup in <number> ms
+````
+Assuming that the pom.xml has not been changed, it should now be accessible from http://fi-cloud:8080
+
 You can use GUI manager page at http://fi-cloud:8080/manager to deploy/stop war files. To deploy a war file, use the "WAR file 
 to deploy" box, click "Choose file", navigate to the war file you wish to deploy, select, then click "Deploy". All loaded war 
-files are listed in the "Applications" box, and each has commnds to stop, reload, etc., the application. The name of the war will
+files are listed in the "Applications" box, and each has commands to stop, reload, etc., the application. The name of the war will
 be what you need to add to the url path to access the war.
 To stop the Tomcat server, run ```<tomcat installation folder>/bin/shutdown```
 See [this document](http://tomcat.apache.org/tomcat-4.1-doc/RUNNING.txt) for more details on running/stopping your tomcat server
@@ -106,7 +113,7 @@ If successful, you should see
 ```
 [INFO] Started Jetty Server
 ```
-Jetty will now be running on the port specified in pom.xml, eg. http://127.0.0.1:8888 or http://fi-cloud:8888 if you have added it
+Jetty will now be running on the port specified in pom.xml, eg. http://fi-cloud:8888 if you have added it
 to your hosts file (see "Tomcat" above)
 To stop: type Ctrl+c, type 'y', press Enter button
 
@@ -154,11 +161,11 @@ this is tweakable through the MaxMatchRadius field in the Inspector.
 5. Under the "Scenes to Build" section, click "Add Current" 
 6. Click the "Player Settings" button and open the "Resolution and Presentation" tab
   1. Ensure that "Default is Full Screen" is not ticked
-  2. Set Default Screen Width to 400
-  3. Set Default Screen Height to 800
-  4. Ensure Run In Background is ticked
+  2. Set "Default Screen Width" to 400
+  3. Set "Default Screen Height" to 800
+  4. Ensure "Run In Background" is ticked
   5. Ensure "Resizeable Window" is ticked	
-7. Click Build and choose the file name and where to save the file
+7. Click "Build" and choose the file name and where to save the file
 8. Run a jetty or tomcat instance of the server
 9. Open two instances of the client, ie., the program you have just built
   - Ensure that you can see the all buttons in the GUI, including "Quit" at the bottom.
