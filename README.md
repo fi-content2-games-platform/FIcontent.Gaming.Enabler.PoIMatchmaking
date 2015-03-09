@@ -11,7 +11,7 @@ Maven.  I used jdk1.7.0.25 from Oracle and Maven 3.1.1 from Apache. The latest J
 [Download link for Maven](http://maven.apache.org/download.cgi) and [installation instructions] 
 (http://maven.apache.org/download.cgi#Installation).
 
-If you want to deploy the servlet using Tomcat, [download]((http://tomcat.apache.org/)) and install Tomcat (Installation guides can be found under the "Documentation" 
+If you want to deploy the servlet using Tomcat, [download](http://tomcat.apache.org/) and install Tomcat (Installation guides can be found under the "Documentation" 
 menu item on the same page). 
 
 The Unity demo requires Unity. [Download it](https://unity3d.com/get-unity) and follow the installation instructions. The Unity package and project were built with Unity 5.0.0f4, and should work on later versions but may fail to 
