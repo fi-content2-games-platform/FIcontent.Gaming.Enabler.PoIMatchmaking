@@ -50,9 +50,9 @@ The section of pom.xml containing settings for Tomcat/Jetty:
 ```
 
 ####Tomcat:
-Tomcat can be used either as a standalone (ie, using the GUI to deploy a war to the server), or using Maven.
+Tomcat can be used either as a stand-alone (ie, using the GUI to deploy a war to the server), or using Maven.
 
-#####Standalone:
+#####Deploying a war to Tomcat stand-alone:
 * Build a war file (see "Building a war file" below)
 * Run ```<tomcat installation folder>/bin/startup```. If the server successfully started, you should see:
 ```
