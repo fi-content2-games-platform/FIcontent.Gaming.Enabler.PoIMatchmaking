@@ -2,7 +2,7 @@ PoIMatchmaking
 ==================
 
 This package contains a sample server, a Unity client implementation, and a demo of the usage of the Unity package. A pre-built version of this servlet is included in the "Release" tab. 
-This document assumes that you are using the pre-built war file. For instructions on how to build the war file, see [this document](BuildAndDeploy.md).
+This document assumes that you are using this pre-built war file. For instructions on how to build the war file, see [this document](BuildAndDeploy.md).
 
 Software Requirements
 ---------------------
