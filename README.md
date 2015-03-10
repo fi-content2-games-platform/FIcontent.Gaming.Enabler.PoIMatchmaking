@@ -1,7 +1,7 @@
 PoIMatchmaking
 ==================
 
-This package contains a sample server, a Unity client implementation, and a demo of the usage of the Unity package. A pre-built version of this servlet is included in the ["release" tab above](https://github.com/fi-content2-games-platform/FIcontent.Gaming.Enabler.PoIMatchmaking/releases/latest). 
+This package contains a sample server, a Unity client implementation, and a demo of the usage of the Unity package. A pre-built version of this servlet is included in the ["release" tab](https://github.com/fi-content2-games-platform/FIcontent.Gaming.Enabler.PoIMatchmaking/releases/latest). 
 This document assumes that you are using this pre-built war file. For instructions on how to build the war file, see [this document](BuildAndDeploy.md).
 
 Software Requirements
@@ -16,7 +16,7 @@ They have not been tests on later versions but are expected to work. They may fa
 Servlet
 -------
 
-The sample server is a Java Servlet intended to run in a Servlet Container such as Apache Tomcat. This servlet is included in the ["release" tab above](https://github.com/fi-content2-games-platform/FIcontent.Gaming.Enabler.PoIMatchmaking/releases/latest).
+The sample server is a Java Servlet intended to run in a Servlet Container such as Apache Tomcat. This servlet is included in the ["release" tab](https://github.com/fi-content2-games-platform/FIcontent.Gaming.Enabler.PoIMatchmaking/releases/latest).
 
 ####Apache Tomcat:
 
@@ -27,7 +27,7 @@ INFO: Server startup in <number> ms
 The server should now be accessible from http://127.0.0.1:8080 (assuming the default values for the Tomcat setup have not been changed)
 
 The GUI manager page at http://127.0.0.1:8080/manager can be used to deploy/stop war files. To deploy a war file, use the "WAR file 
-to deploy" box, click "Choose file", navigate to the desired war file, select, then click "Deploy". All loaded war 
+to deploy" box, click "Choose file", navigate to the downloaded war file, select, then click "Deploy". All loaded war 
 files are listed in the "Applications" box, and each has commands to stop, reload, etc., the application. The name of the war will
 be what is needed to add to the url path to access the war.
 To stop the Tomcat server, run ```<tomcat installation folder>/bin/shutdown```
