@@ -1,7 +1,7 @@
 PoIMatchmaking
 ==================
 
-This package contains a sample server, a Unity client implementation, and a demo of the usage of the Unity package. A pre-built version of this servlet is included in the "Release" tab. 
+This package contains a sample server, a Unity client implementation, and a demo of the usage of the Unity package. A pre-built version of this servlet is included in the ["Release" tab](/releases). 
 This document assumes that you are using this pre-built war file. For instructions on how to build the war file, see [this document](BuildAndDeploy.md).
 
 Software Requirements
@@ -16,7 +16,7 @@ They have not been tests on later versions but are expected to work. They may fa
 Servlet
 -------
 
-The sample server is a Java Servlet intended to run in a Servlet Container such as Apache Tomcat.
+The sample server is a Java Servlet intended to run in a Servlet Container such as Apache Tomcat. This servlet is included in the ["Release" tab](/releases).
 
 ####Apache Tomcat:
 
@@ -36,6 +36,8 @@ See [this document](http://tomcat.apache.org/tomcat-4.1-doc/RUNNING.txt) for mor
 Unity client package
 --------------------
 
+The Unity Client package is found at [/Unity/POIMatchmaking.unitypackage](/Unity)
+
 After importing the client package into the Unity project, in order to match a client with another, apply the MatchClient component to
 a GameObject, and initialize any public members that are needed to be customised.  The MatchClient component can be removed when 
 matching is complete.
@@ -49,6 +51,8 @@ POIMatchmakingDemo class.
 
 Unity Demo App
 --------------
+
+The Unity Demo App is found at [Unity/POIMatchmakingDemo](Unity/POIMatchmakingDemo)
 
 The Unity Demo App must be executed standalone, in order to run multiple instances, though one instance running 
 in the editor can also connect to other standalone instances. It should work on all platforms, and has been tested on Windows Desktop and Android.
