@@ -6,7 +6,7 @@ This package contains a sample server, a Unity client implementation, and a demo
 Software Requirements
 ---------------------
 
-* Apache Tomcat: [download link](http://tomcat.apache.org/) and install Tomcat (Installation guides can be found under the "Documentation" 
+* Apache Tomcat: [Download](http://tomcat.apache.org/) and install Tomcat (Installation guides can be found under the "Documentation" 
 menu item on the same page). 
 
 * Unity: required for the Unity demo. [Download](https://unity3d.com/get-unity) and follow the installation instructions. The Unity package and project were built with Unity 5.0.0f4. 
@@ -15,7 +15,7 @@ They have not been tests on later versions but are expected to work. They may fa
 Servlet
 -------
 
-The sample server is a Java Servlet intended to run in a Servlet Container such as Apache Tomcat. A pre-built servlet is provided in the "Release" tab.
+The sample server is a Java Servlet intended to run in a Servlet Container such as Apache Tomcat.
 
 ####Apache Tomcat:
 
