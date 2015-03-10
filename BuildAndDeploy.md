@@ -50,17 +50,17 @@ The section of pom.xml containing settings for Tomcat/Jetty:
 ```
 
 ####Tomcat:
-Tomcat can be used either as a standalone (ie, deployed a war to the server), or using Maven.
+Tomcat can be used either as a standalone (ie, using the GUI to deploy a war to the server), or using Maven.
 
 #####Standalone:
-Build a war file (see "Building a war file" below)
-Run ```<tomcat installation folder>/bin/startup```. If the server successfully started, you should see:
+* Build a war file (see "Building a war file" below)
+* Run ```<tomcat installation folder>/bin/startup```. If the server successfully started, you should see:
 ```
 INFO: Server startup in <number> ms
 ````
 The server should now be accessible from http://127.0.0.1:8080 (assuming the default values for the Tomcat setup have not been changed)
 
-The GUI manager page at http://127.0.0.1:8080/manager can be used to deploy/stop war files. To deploy a war file, use the "WAR file 
+* The GUI manager page at http://127.0.0.1:8080/manager can be used to deploy/stop war files. To deploy a war file, use the "WAR file 
 to deploy" box, click "Choose file", navigate to the desired war file, select, then click "Deploy". All loaded war 
 files are listed in the "Applications" box, and each has commands to stop, reload, etc., the application. The name of the war will
 be what is needed to add to the url path to access the war.
@@ -72,24 +72,24 @@ The relevant configuration section Tomcat's entry in the plugin section of pom.x
 and also be aware that login/password details for managing the Tomcat server are stored for maven in a local configuration file (<maven installation folder>/conf/settings.xml), 
 not in the git repository. Google "tomcat-maven-plugin settings.xml" for more information.
 
-use a terminal/command prompt to navigate to the folder that contains the pom.xml file and run:
+* To run Tomcat, use a terminal/command prompt to navigate to the folder that contains the pom.xml file and run:
 ```mvn tomcat:run```
 If successful, the output should end:
 ```
 INFO: Starting Coyote HTTP/1.1 on http-8080
 ```
 Tomcat will now be running on the path specified in pom.xml, eg. http://localhost:8080/matcher
-To stop: type Ctrl+c, type 'y', press Enter button
+* To stop: type Ctrl+c, type 'y', press Enter button
 
 ####Jetty:
-To run jetty, use a terminal/command prompt to navigate to the folder that contains the pom.xml file and run: 
+* To run Jetty, use a terminal/command prompt to navigate to the folder that contains the pom.xml file and run: 
 ```mvn jetty:run```
 If successful, the output should end:
 ```
 [INFO] Started Jetty Server
 ```
 Jetty will now be running on the port specified in pom.xml, eg. http://localhost:8888
-To stop: type Ctrl+c, type 'y', press Enter button
+* To stop: type Ctrl+c, type 'y', press Enter button
 
 
 #####Building a war file: 
