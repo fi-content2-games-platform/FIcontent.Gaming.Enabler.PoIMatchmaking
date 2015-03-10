@@ -14,8 +14,8 @@ namespace Assets
 		private string _key;
 		private readonly List<string> _log = new List<string>();
 		
-		private string _baseUrl = "http://fi-cloud:8888"; //the default value for the base url
-		private string _testBaseUrl = "http://fi-cloud:8888"; 
+		public string baseUrl = "http://localhost:8888"; //the default value for the base url
+		private string _testBaseUrl = "http://localhost:8888"; 
 		private TestLocationInterface _testLocationInterface;
 
 		//just north-west of Nikolai church, Berlin (Germany)
@@ -32,11 +32,11 @@ namespace Assets
 
 		//match radius
 		private string _testMatchRadius = "0";
-		private int _matchRadius = 0; //m. The default radius for matching two clients
+		public int matchRadius = 0; //m. The default radius for matching two clients
 
 		//snap radius
 		private string _testSnapRadius = "75";
-		private int _snapRadius = 75; //m. The default radius for when a client is searching for the nearest PoI
+		public int snapRadius = 75; //m. The default radius for when a client is searching for the nearest PoI
 		
 		
 		private bool _useTestLocationInterface;
@@ -100,13 +100,13 @@ namespace Assets
 					{
 						if (_testBaseUrl.EndsWith("/")) // remove end "/"
 							_testBaseUrl = _testBaseUrl.Substring(0, _testBaseUrl.Length-1);
-						_baseUrl = _testBaseUrl;
+						baseUrl = _testBaseUrl;
 					}
 
 					GUILayout.EndHorizontal();					
 					GUILayout.BeginHorizontal();
 					GUILayout.Label("", GUILayout.Width(quarterWidth));
-					GUILayout.Label(string.Format(_baseUrl), GUILayout.Width(quarterWidth*2));
+					GUILayout.Label(string.Format(baseUrl), GUILayout.Width(quarterWidth*2));
 					GUILayout.FlexibleSpace();
 					GUILayout.EndHorizontal();
 
@@ -175,13 +175,13 @@ namespace Assets
 					if(!_isGoClicked && GUILayout.Button("Set", GUILayout.ExpandWidth(false)))
 						//updating the max match radius is currently not supported in the GUI
 					{
-						int.TryParse(_testMatchRadius, out _matchRadius);
+						int.TryParse(_testMatchRadius, out matchRadius);
 					}
 
 					GUILayout.EndHorizontal();					
 					GUILayout.BeginHorizontal();
 					GUILayout.Label("", GUILayout.Width(quarterWidth));
-					GUILayout.Label(string.Format("{0}", ""+_matchRadius), GUILayout.Width(quarterWidth));
+					GUILayout.Label(string.Format("{0}", ""+matchRadius), GUILayout.Width(quarterWidth));
 					GUILayout.FlexibleSpace();
 					GUILayout.EndHorizontal();
 
@@ -192,18 +192,18 @@ namespace Assets
 					
 					if(!_isGoClicked && GUILayout.Button("Set", GUILayout.ExpandWidth(false)))
 					{
-						int.TryParse(_testSnapRadius, out _snapRadius);
+						int.TryParse(_testSnapRadius, out snapRadius);
 					}
 					else if(_isGoClicked && GUILayout.Button("Update", GUILayout.ExpandWidth(false)))
 					{
-						int.TryParse(_testSnapRadius, out _snapRadius);
-						_matchClient.snapRadius = _snapRadius;
+						int.TryParse(_testSnapRadius, out snapRadius);
+						_matchClient.snapRadius = snapRadius;
 						StartCoroutine(_matchClient.UpdateClientInfo());
 					}
 					GUILayout.EndHorizontal();					
 					GUILayout.BeginHorizontal();
 					GUILayout.Label("", GUILayout.Width(quarterWidth));
-					GUILayout.Label(string.Format("{0}", ""+_snapRadius), GUILayout.Width(quarterWidth));
+					GUILayout.Label(string.Format("{0}", ""+snapRadius), GUILayout.Width(quarterWidth));
 					GUILayout.FlexibleSpace();
 					GUILayout.EndHorizontal();
 					
@@ -301,10 +301,10 @@ namespace Assets
 			_matchClient = gameObject.AddComponent<MatchClient>();
 			_matchClient.NetworkInterface = unityNetworkInterface;
 			_matchClient.LocationInterface = _testLocationInterface;
-			_matchClient.BaseUrl = _baseUrl;
-			_matchClient.snapRadius = _snapRadius;
+			_matchClient.BaseUrl = baseUrl;
+			_matchClient.snapRadius = snapRadius;
 			_matchClient.GameName = "com.studiogobo.fi.SpatialMatchmaking.Unity.PoiMatchmakingDemo";
-			_matchClient.MaxMatchRadius = _matchRadius;
+			_matchClient.MaxMatchRadius = matchRadius;
 			_matchClient.OnSuccess += Success;
 			//_matchClient.OnFailure += ...;
 			_matchClient.OnLogEvent += ProcessLogEvent;
