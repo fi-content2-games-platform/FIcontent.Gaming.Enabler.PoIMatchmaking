@@ -16,6 +16,8 @@ namespace Assets
 		
 		public string baseUrl = "http://localhost:8888"; //the default value for the base url
 		private string _testBaseUrl = "http://localhost:8888"; 
+		public string poiUrl = "http://130.206.80.175/api/poi"; //the default value for the POI GE url
+		private string _testPoiUrl = "http://130.206.80.175/api/poi";
 		private TestLocationInterface _testLocationInterface;
 
 		//just north-west of Nikolai church, Berlin (Germany)
@@ -92,7 +94,7 @@ namespace Assets
 				{
 					//base url, the url of the server
 					GUILayout.BeginHorizontal();
-					GUILayout.Label("Base url: ", GUILayout.Width(quarterWidth));
+					GUILayout.Label("Server url: ", GUILayout.Width(quarterWidth));
 					_testBaseUrl = GUILayout.TextField(_testBaseUrl, GUILayout.Width(quarterWidth*2));
 
 					if(!_isGoClicked && GUILayout.Button("Set", GUILayout.ExpandWidth(false))) 
@@ -107,6 +109,26 @@ namespace Assets
 					GUILayout.BeginHorizontal();
 					GUILayout.Label("", GUILayout.Width(quarterWidth));
 					GUILayout.Label(string.Format(baseUrl), GUILayout.Width(quarterWidth*2));
+					GUILayout.FlexibleSpace();
+					GUILayout.EndHorizontal();
+
+					//the url of the POI GE
+					GUILayout.BeginHorizontal();
+					GUILayout.Label("POI GE url: ", GUILayout.Width(quarterWidth));
+					_testPoiUrl = GUILayout.TextField(_testPoiUrl, GUILayout.Width(quarterWidth*2));
+					
+					if(!_isGoClicked && GUILayout.Button("Set", GUILayout.ExpandWidth(false))) 
+						//updating the connection url is currently not supported in the GUI
+					{
+						if (_testPoiUrl.EndsWith("/")) // remove end "/"
+							_testPoiUrl = _testPoiUrl.Substring(0, _testPoiUrl.Length-1);
+						poiUrl = _testPoiUrl;
+					}
+					
+					GUILayout.EndHorizontal();
+					GUILayout.BeginHorizontal();
+					GUILayout.Label("", GUILayout.Width(quarterWidth));
+					GUILayout.Label(string.Format(poiUrl), GUILayout.Width(quarterWidth*2));
 					GUILayout.FlexibleSpace();
 					GUILayout.EndHorizontal();
 
@@ -231,12 +253,7 @@ namespace Assets
 						GUILayout.Label(_reqNotUuidLabel, GUILayout.Width(quarterWidth*4f));	
 					}
 					GUILayout.EndHorizontal();
-					
-					if (_isGoClicked && GUILayout.Button("Get Nearest POI", GUILayout.ExpandWidth(false)))
-					{
-						StartCoroutine(_matchClient.GetNearestPOI());
-					}
-					
+			
 					//conn bits and blank space
 					if (_matchClient == null)
 					{
@@ -252,15 +269,48 @@ namespace Assets
 							GUILayout.EndHorizontal();
 						}
 						
+						//Go
 						GUILayout.BeginHorizontal();
-						if (GUILayout.Button("Go", GUILayout.ExpandWidth(false)))
+						if (GUILayout.Button("Go", GUILayout.Width(quarterWidth*1.5f)))
 							Go();
-						GUILayout.EndHorizontal();
+						GUILayout.Label("", GUILayout.Width(quarterWidth*0.6f));
 						
+						//Quit
+						if (GUILayout.Button("Quit", GUILayout.Width(quarterWidth*1.5f)))
+						{
+							if (_matchClient != null)
+							{
+								StartCoroutine(_matchClient.DeleteClient());
+							}
+							
+							Application.Quit();
+						}
+						GUILayout.EndHorizontal();
+
 						GUILayout.FlexibleSpace();
 					}
 					else
 					{
+						//Get Nearest POI
+						GUILayout.BeginHorizontal();
+						if (GUILayout.Button("Get Nearest POI", GUILayout.Width(quarterWidth*1.5f)))
+						{
+							StartCoroutine(_matchClient.GetNearestPOI());
+						}
+						GUILayout.Label("", GUILayout.Width(quarterWidth*0.6f));
+
+						//Quit
+						if (GUILayout.Button("Quit", GUILayout.Width(quarterWidth*1.5f)))
+						{
+							if (_matchClient != null)
+							{
+								StartCoroutine(_matchClient.DeleteClient());
+							}
+							
+							Application.Quit();
+						}
+						GUILayout.EndHorizontal ();
+
 						var s = "";
 						for (int i = 0; i < _log.Count; ++i)
 							s += _log[i] + "\n";
@@ -268,18 +318,6 @@ namespace Assets
 						GUILayout.TextArea(s, GUILayout.ExpandHeight(true));
 					}
 					
-					//Quit
-					GUILayout.BeginHorizontal();
-					if (GUILayout.Button("Quit", GUILayout.ExpandWidth(false)))
-					{
-						if (_matchClient != null)
-						{
-							StartCoroutine(_matchClient.DeleteClient());
-						}
-						
-						Application.Quit();
-					}
-					GUILayout.EndHorizontal();
 				}
 				GUILayout.EndVertical();
 			}
@@ -302,6 +340,7 @@ namespace Assets
 			_matchClient.NetworkInterface = unityNetworkInterface;
 			_matchClient.LocationInterface = _testLocationInterface;
 			_matchClient.BaseUrl = baseUrl;
+			_matchClient.poiGeUrl = poiUrl;
 			_matchClient.snapRadius = snapRadius;
 			_matchClient.GameName = "com.studiogobo.fi.SpatialMatchmaking.Unity.PoiMatchmakingDemo";
 			_matchClient.MaxMatchRadius = matchRadius;

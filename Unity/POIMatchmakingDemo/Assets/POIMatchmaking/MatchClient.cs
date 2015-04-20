@@ -122,7 +122,7 @@ namespace Assets.POIMatchmaking
 		public int snapRadius = 75; //m. The default radius for when a client is searching for the nearest POI
 		private int maxSearchRadius = 2000; //m. The max search radius to use when searching for nearby POIs
 		private int maxPoisReturned = 50; //the max amount of POIs to return when querying the database
-		private String poiGeUrl = "http://130.206.80.175/api/poi"; //the path to POI-GE's radial_search.php
+		public String poiGeUrl = "http://130.206.80.175/api/poi"; //the path to POI-GE's radial_search.php
 
 		/// <summary>
 		/// Used when the client manually updates it's record, set in SpatialMatchmakingDemo.cs, used as requireNotUuidd
