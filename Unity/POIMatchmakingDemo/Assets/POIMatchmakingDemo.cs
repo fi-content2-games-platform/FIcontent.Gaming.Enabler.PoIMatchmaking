@@ -14,10 +14,10 @@ namespace Assets
 		private string _key;
 		private readonly List<string> _log = new List<string>();
 		
-		public string baseUrl = "http://localhost:8888"; //the default value for the base url
-		private string _testBaseUrl = "http://localhost:8888"; 
-		public string poiUrl = "http://130.206.80.175/api/poi"; //the default value for the POI GE url
-		private string _testPoiUrl = "http://130.206.80.175/api/poi";
+		public string matchmakingServerUrl = "http://localhost:8888"; //the default value for the base url
+		private string _testMatchmakingServerUrl = "http://localhost:8888"; 
+		public string poiGeUrl = "http://130.206.80.175/api/poi"; //the default value for the POI GE url
+		private string _testPoiGeUrl = "http://130.206.80.175/api/poi";
 		private TestLocationInterface _testLocationInterface;
 
 		//just north-west of Nikolai church, Berlin (Germany)
@@ -95,40 +95,40 @@ namespace Assets
 					//base url, the url of the server
 					GUILayout.BeginHorizontal();
 					GUILayout.Label("Server url: ", GUILayout.Width(quarterWidth));
-					_testBaseUrl = GUILayout.TextField(_testBaseUrl, GUILayout.Width(quarterWidth*2));
 
+					_testMatchmakingServerUrl = GUILayout.TextField(_testMatchmakingServerUrl, GUILayout.Width(quarterWidth*2));
 					if(!_isGoClicked && GUILayout.Button("Set", GUILayout.ExpandWidth(false))) 
 						//updating the connection url is currently not supported in the GUI
 					{
-						if (_testBaseUrl.EndsWith("/")) // remove end "/"
-							_testBaseUrl = _testBaseUrl.Substring(0, _testBaseUrl.Length-1);
-						baseUrl = _testBaseUrl;
+						if (_testMatchmakingServerUrl.EndsWith("/")) // remove end "/"
+							_testMatchmakingServerUrl = _testMatchmakingServerUrl.Substring(0, _testMatchmakingServerUrl.Length-1);
+						matchmakingServerUrl = _testMatchmakingServerUrl;
 					}
 
 					GUILayout.EndHorizontal();					
 					GUILayout.BeginHorizontal();
 					GUILayout.Label("", GUILayout.Width(quarterWidth));
-					GUILayout.Label(string.Format(baseUrl), GUILayout.Width(quarterWidth*2));
+					GUILayout.Label(string.Format(matchmakingServerUrl), GUILayout.Width(quarterWidth*2));
 					GUILayout.FlexibleSpace();
 					GUILayout.EndHorizontal();
 
 					//the url of the POI GE
 					GUILayout.BeginHorizontal();
 					GUILayout.Label("POI GE url: ", GUILayout.Width(quarterWidth));
-					_testPoiUrl = GUILayout.TextField(_testPoiUrl, GUILayout.Width(quarterWidth*2));
+					_testPoiGeUrl = GUILayout.TextField(_testPoiGeUrl, GUILayout.Width(quarterWidth*2));
 					
 					if(!_isGoClicked && GUILayout.Button("Set", GUILayout.ExpandWidth(false))) 
 						//updating the connection url is currently not supported in the GUI
 					{
-						if (_testPoiUrl.EndsWith("/")) // remove end "/"
-							_testPoiUrl = _testPoiUrl.Substring(0, _testPoiUrl.Length-1);
-						poiUrl = _testPoiUrl;
+						if (_testPoiGeUrl.EndsWith("/")) // remove end "/"
+							_testPoiGeUrl = _testPoiGeUrl.Substring(0, _testPoiGeUrl.Length-1);
+						poiGeUrl = _testPoiGeUrl;
 					}
 					
 					GUILayout.EndHorizontal();
 					GUILayout.BeginHorizontal();
 					GUILayout.Label("", GUILayout.Width(quarterWidth));
-					GUILayout.Label(string.Format(poiUrl), GUILayout.Width(quarterWidth*2));
+					GUILayout.Label(string.Format(poiGeUrl), GUILayout.Width(quarterWidth*2));
 					GUILayout.FlexibleSpace();
 					GUILayout.EndHorizontal();
 
@@ -339,8 +339,8 @@ namespace Assets
 			_matchClient = gameObject.AddComponent<MatchClient>();
 			_matchClient.NetworkInterface = unityNetworkInterface;
 			_matchClient.LocationInterface = _testLocationInterface;
-			_matchClient.BaseUrl = baseUrl;
-			_matchClient.poiGeUrl = poiUrl;
+			_matchClient.matchmakingServerUrl = matchmakingServerUrl;
+			_matchClient.poiGeUrl = poiGeUrl;
 			_matchClient.snapRadius = snapRadius;
 			_matchClient.GameName = "com.studiogobo.fi.SpatialMatchmaking.Unity.PoiMatchmakingDemo";
 			_matchClient.MaxMatchRadius = matchRadius;

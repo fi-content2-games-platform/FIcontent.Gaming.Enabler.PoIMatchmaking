@@ -27,7 +27,7 @@ namespace Assets.POIMatchmaking
 		/// <summary>
 		/// The base URL of the matchmaking service
 		/// </summary>
-		public string BaseUrl;
+		public string matchmakingServerUrl;
 		
 		/// <summary>
 		/// A game name, which is converted into a matchmaking requirement so you only match with other instances of the same game
@@ -122,7 +122,7 @@ namespace Assets.POIMatchmaking
 		public int snapRadius = 75; //m. The default radius for when a client is searching for the nearest POI
 		private int maxSearchRadius = 2000; //m. The max search radius to use when searching for nearby POIs
 		private int maxPoisReturned = 50; //the max amount of POIs to return when querying the database
-		public String poiGeUrl = "http://130.206.80.175/api/poi"; //the path to POI-GE's radial_search.php
+		public String poiGeUrl; //the path to POI-GE's radial_search.php
 
 		/// <summary>
 		/// Used when the client manually updates it's record, set in SpatialMatchmakingDemo.cs, used as requireNotUuidd
@@ -168,7 +168,7 @@ namespace Assets.POIMatchmaking
 		//get the nearest POI to this client, if there is a POI within a maxSearchRadius
 		public IEnumerator GetNearestPOI()
 		{
-			var nearestPOIwww = new WWW(BaseUrl + string.Format("/clients/{0}/nearestPOI", id));
+			var nearestPOIwww = new WWW(matchmakingServerUrl + string.Format("/clients/{0}/nearestPOI", id));
 			yield return nearestPOIwww;
 
 			if (www.error != null) {
@@ -228,7 +228,7 @@ namespace Assets.POIMatchmaking
 			//requirements
 			postData.Set("requirements", requirements);
 
-			www = new WWW(BaseUrl + string.Format("/clients/{0}/update", id), postData.ToByteArray(), headers);
+			www = new WWW(matchmakingServerUrl + string.Format("/clients/{0}/update", id), postData.ToByteArray(), headers);
 			yield return www;
 			
 			if (www.error != null)
@@ -253,7 +253,7 @@ namespace Assets.POIMatchmaking
 		public IEnumerator DeleteClient()//called when the "Quit" button is clicked
 		{
 			if (id != -1) 
-				yield return new WWW (BaseUrl + string.Format ("/clients/{0}/delete", id) + "?removeFromMatch=true", new JsonObject ().ToByteArray ());
+				yield return new WWW (matchmakingServerUrl + string.Format ("/clients/{0}/delete", id) + "?removeFromMatch=true", new JsonObject ().ToByteArray ());
 			
 		}
 
@@ -324,7 +324,7 @@ namespace Assets.POIMatchmaking
 					headers = new Dictionary<string, string>();
 					headers.Add("Content-Type","application/json");
 
-					www = new WWW(BaseUrl + "/clients", postData.ToByteArray(), headers);
+					www = new WWW(matchmakingServerUrl + "/clients", postData.ToByteArray(), headers);
 					yield return www;
 
 					if (www.error != null)
@@ -352,7 +352,7 @@ namespace Assets.POIMatchmaking
 				Log("waiting for match");
 				while (true)
 				{
-					www = new WWW(BaseUrl + string.Format("/matches?client={0}", id) + "&numMatched=" + numClientsInMatch);
+					www = new WWW(matchmakingServerUrl + string.Format("/matches?client={0}", id) + "&numMatched=" + numClientsInMatch);
 
 					yield return www;
 					
@@ -380,7 +380,7 @@ namespace Assets.POIMatchmaking
 				Log("fetching match data");
 				var sessionId = new JsonObject(www.text).GetInteger("id");
 				
-				www = new WWW(BaseUrl + string.Format("/matches/{0}", sessionId));
+				www = new WWW(matchmakingServerUrl + string.Format("/matches/{0}", sessionId));
 				yield return www;
 				
 				if (www.error != null)
@@ -404,7 +404,7 @@ namespace Assets.POIMatchmaking
 
 				Log("fetching data for client "+otherClient);
 				
-				www = new WWW(BaseUrl + string.Format("/clients/{0}", otherClient));
+				www = new WWW(matchmakingServerUrl + string.Format("/clients/{0}", otherClient));
 				yield return www;
 				
 				if (www.error != null)
@@ -465,7 +465,7 @@ namespace Assets.POIMatchmaking
 					while (otherClientData.GetString("connectionInfo") == "")
 					{
 						yield return new WaitForSeconds(2);
-						www = new WWW(BaseUrl + string.Format("/clients/{0}", otherClient));
+						www = new WWW(matchmakingServerUrl + string.Format("/clients/{0}", otherClient));
 						yield return www;
 						otherClientData = new JsonObject(www.text);
 					}
@@ -522,7 +522,7 @@ namespace Assets.POIMatchmaking
 					// We failed to connect to the peer, so explicitly ask the server not to match us with the same peer again
 					requirements.Add(RequireNotUuid(otherClientData.GetString("uuid")));
 					postData.Set("requirements", requirements);
-					www = new WWW(BaseUrl + string.Format("/clients/{0}/update", id), postData.ToByteArray(), headers);
+					www = new WWW(matchmakingServerUrl + string.Format("/clients/{0}/update", id), postData.ToByteArray(), headers);
 					yield return www;
 					
 					if (www.error != null)

@@ -79,9 +79,10 @@ this is tweakable through the "Match radius (m)" field in the client GUI.
 6. Click the "Player Settings" button and open the "Resolution and Presentation" tab
   1. Ensure that "Default is Full Screen" is not ticked
   2. Set "Default Screen Width" to 600
-  3. Set "Default Screen Height" to 900
+  3. Set "Default Screen Height" to 1000
   4. Ensure "Run In Background" is ticked
-  5. Ensure "Resizeable Window" is ticked	
+  5. Set "Display Resolution Dialog" to Disabled (optional)
+  6. Ensure "Resizeable Window" is ticked (optional)	
 7. Click "Build" and choose the file name and where to save the file
 8. Run a jetty or tomcat instance of the server
 9. Open two instances of the client, ie., the program that has just been built
